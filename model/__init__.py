@@ -1,0 +1,1 @@
+from .postModel import Post

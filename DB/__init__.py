@@ -1,0 +1,1 @@
+from .postData import POSTS
