@@ -1,5 +1,5 @@
 from fastapi import APIRouter,status,HTTPException
-from controller import get_all_posts,get_post_by_id,create_post,update_single_post
+from controller import get_all_posts,get_post_by_id,create_post,update_single_post,delete_post
 from model import Post,UpdatePost
 
 post_router  = APIRouter()
@@ -29,3 +29,10 @@ async def update_post(id : int , updated_post : UpdatePost):
     if updated_post_resp is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id {id} not found")
     return updated_post_resp
+
+@post_router.delete('/posts/{id}',status_code=status.HTTP_200_OK)
+async def delete_a_post(id : int):
+    deleted =  await delete_post(id)
+    if deleted is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id {id} not found")
+    return {"detail" : f"Post with id {id} deleted"}

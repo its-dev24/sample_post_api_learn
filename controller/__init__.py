@@ -1,1 +1,1 @@
-from .postController import get_all_posts,get_post_by_id,create_post,update_single_post
+from .postController import get_all_posts,get_post_by_id,create_post,update_single_post,delete_post

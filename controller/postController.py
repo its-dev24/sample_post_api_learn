@@ -24,3 +24,10 @@ async def update_single_post(id : int , updated_post : UpdatePost):
         POSTS[idx] = {**post , **updated_data}
         return POSTS[idx]
     return None
+
+async def delete_post(id : int):
+    idx , post = queryId(POSTS,id)
+    if post is None:
+        return None
+    POSTS.pop(idx)
+    return post
