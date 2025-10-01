@@ -1,1 +1,1 @@
-from .postModel import Post
+from .postModel import Post,UpdatePost
