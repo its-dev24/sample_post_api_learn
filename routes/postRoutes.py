@@ -1,6 +1,6 @@
 from fastapi import APIRouter,status,HTTPException
-from controller import get_all_posts,get_post_by_id,create_post
-from model import Post
+from controller import get_all_posts,get_post_by_id,create_post,update_single_post
+from model import Post,UpdatePost
 
 post_router  = APIRouter()
 
@@ -22,3 +22,10 @@ async def create_new_post(new_post : Post):
     if create_post:
         return created_post
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@post_router.put('/posts/{id}' , status_code = status.HTTP_200_OK)
+async def update_post(id : int , updated_post : UpdatePost):
+    updated_post_resp = await update_single_post(id,updated_post)
+    if updated_post_resp is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id {id} not found")
+    return updated_post_resp

@@ -1,12 +1,12 @@
 from DB import POSTS
 from utils import queryId
-from model import Post
+from model import Post,UpdatePost
 
 async def get_all_posts():
     return POSTS
 
 async def get_post_by_id(id : int):
-    post = queryId(POSTS , id)
+    idx,post = queryId(POSTS , id)
     return post
 
 async def create_post(new_post : Post):
@@ -15,3 +15,12 @@ async def create_post(new_post : Post):
     post_dict["id"] = new_id
     POSTS.append(post_dict)
     return post_dict
+
+async def update_single_post(id : int , updated_post : UpdatePost):
+    idx,post = queryId(POSTS,id)
+    if post is not None:
+        updated_data = updated_post.model_dump(exclude_unset=True)
+        # POSTS[post.get("id")] = post.model_copy(update = updated_data)
+        POSTS[idx] = {**post , **updated_data}
+        return POSTS[idx]
+    return None
