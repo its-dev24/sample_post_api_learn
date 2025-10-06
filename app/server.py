@@ -1,5 +1,5 @@
 from fastapi import FastAPI,HTTPException,status,Response
-from routes import post_router
+from app.routes import post_router
 
 app = FastAPI()
 

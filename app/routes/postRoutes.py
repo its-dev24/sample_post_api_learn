@@ -1,6 +1,6 @@
 from fastapi import APIRouter,status,HTTPException
-from controller import get_all_posts,get_post_by_id,create_post,update_single_post,delete_post
-from model import Post,UpdatePost
+from app.controller import get_all_posts,get_post_by_id,create_post,update_single_post,delete_post
+from app.model import Post,UpdatePost
 
 post_router  = APIRouter()
 

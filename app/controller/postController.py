@@ -1,6 +1,6 @@
-from DB import POSTS
-from utils import queryId
-from model import Post,UpdatePost
+from app.DB import POSTS
+from app.utils import queryId
+from app.model import Post,UpdatePost
 
 async def get_all_posts():
     return POSTS
