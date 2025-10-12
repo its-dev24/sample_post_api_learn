@@ -30,16 +30,20 @@ async def update_single_post(id : int , updated_post : UpdatePost):
     # idx,post = queryId(POSTS,id)
     cursor.execute("""UPDATE posts SET title = %s , content = %s , published = %s WHERE id = %s RETURNING * ;""" , (updated_post.title , updated_post.content , updated_post.published , id))
     post = cursor.fetchone()
-    if post is not None:
+    conn.commit()
+    # if post is not None:
         # updated_data = updated_post.model_dump(exclude_unset=True)
         # POSTS[post.get("id")] = post.model_copy(update = updated_data)
         # POSTS[idx] = {**post , **updated_data}
-        return post
-    return None
+        # return post
+    return post
 
 async def delete_post(id : int):
-    idx , post = queryId(POSTS,id)
-    if post is None:
-        return None
-    POSTS.pop(idx)
+    # idx , post = queryId(POSTS,id)
+    # if post is None:
+    #     return None
+    # POSTS.pop(idx)
+    cursor.execute("""DELETE FROM posts WHERE id = %s RETURNING * ;""" , (str(id)))
+    post = cursor.fetchone()
+    conn.commit()
     return post
