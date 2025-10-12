@@ -1,1 +1,1 @@
-from .postData import POSTS
+from .postData import POSTS, connect_db
