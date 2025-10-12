@@ -18,7 +18,7 @@ async def get_post_id(id : int):
 
 @post_router.post('/posts/',status_code = status.HTTP_201_CREATED)
 async def create_new_post(new_post : Post):
-    created_post : dict = await create_post(new_post)
+    created_post = await create_post(new_post)
     if create_post:
         return created_post
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

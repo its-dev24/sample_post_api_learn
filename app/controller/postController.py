@@ -17,11 +17,14 @@ async def get_post_by_id(id : int):
     return post
 
 async def create_post(new_post : Post):
-    new_id : int = len(POSTS)+1 if POSTS else 1
-    post_dict : dict = new_post.model_dump()
-    post_dict["id"] = new_id
-    POSTS.append(post_dict)
-    return post_dict
+    # new_id : int = len(POSTS)+1 if POSTS else 1
+    # post_dict : dict = new_post.model_dump()
+    # post_dict["id"] = new_id
+    # POSTS.append(post_dict)
+    cursor.execute("""INSERT INTO posts (title , content , published) VALUES (%s,%s,%s) RETURNING * ;""", (new_post.title , new_post.content , new_post.published))
+    inserted_post = cursor.fetchone()
+    conn.commit()
+    return inserted_post
 
 async def update_single_post(id : int , updated_post : UpdatePost):
     idx,post = queryId(POSTS,id)
