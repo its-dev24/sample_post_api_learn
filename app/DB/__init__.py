@@ -1,1 +1,1 @@
-from .postData import POSTS, connect_db
+from .postData import POSTS, connect_db,get_cursor,conn

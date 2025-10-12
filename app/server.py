@@ -2,8 +2,6 @@ from fastapi import FastAPI,HTTPException,status,Response
 from app.routes import post_router
 from app.DB import connect_db
 
-cur = connect_db()
-
 app = FastAPI()
 
 app.include_router(post_router)
