@@ -27,12 +27,14 @@ async def create_post(new_post : Post):
     return inserted_post
 
 async def update_single_post(id : int , updated_post : UpdatePost):
-    idx,post = queryId(POSTS,id)
+    # idx,post = queryId(POSTS,id)
+    cursor.execute("""UPDATE posts SET title = %s , content = %s , published = %s WHERE id = %s RETURNING * ;""" , (updated_post.title , updated_post.content , updated_post.published , id))
+    post = cursor.fetchone()
     if post is not None:
-        updated_data = updated_post.model_dump(exclude_unset=True)
+        # updated_data = updated_post.model_dump(exclude_unset=True)
         # POSTS[post.get("id")] = post.model_copy(update = updated_data)
-        POSTS[idx] = {**post , **updated_data}
-        return POSTS[idx]
+        # POSTS[idx] = {**post , **updated_data}
+        return post
     return None
 
 async def delete_post(id : int):
