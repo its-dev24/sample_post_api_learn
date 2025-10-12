@@ -3,15 +3,17 @@ from app.utils import queryId
 from app.model import Post,UpdatePost
 from app.DB import conn,get_cursor
 
+cursor = get_cursor()
 
-async def get_all_posts():
-    cursor = get_cursor()
+async def get_all_posts():  
     cursor.execute("""SELECT * FROM posts""")
     all_posts  = cursor.fetchall()
     return all_posts
 
 async def get_post_by_id(id : int):
-    idx,post = queryId(POSTS , id)
+    cursor.execute("""SELECT * FROM posts WHERE id =%s""" , (str(id)))
+    post = cursor.fetchone()
+    # idx,post = queryId(POSTS , id)
     return post
 
 async def create_post(new_post : Post):
