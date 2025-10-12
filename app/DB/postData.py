@@ -8,23 +8,23 @@ def connect_db():
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # app/
     ENV_PATH = os.path.join(BASE_DIR, '.env')
     load_dotenv(ENV_PATH, override=True)
-    # print(ENV_PATH)
-    # print(os.os.getenv('USERNAME'))
-    # host = os.getenv('HOST')
-    # database = os.getenv('DATABASE')
-    # username = os.getenv('USERNAME')
-    # password = os.getenv('PASSWORD')
-    # port = os.getenv('DB_POST')
+
     while True : 
         try :
             con = psycopg2.connect(host = os.getenv('HOST') , database = os.getenv('DATABASE') , user = os.getenv('USERNAME') , password = os.getenv('PASSWORD') , port = os.getenv('DB_PORT') , cursor_factory = RealDictCursor)
             print("Connection Succesfull")
+            return con
             break
         except Exception as error:
             print(f"Database connection error : {error}")
             time.sleep(2)
 
-    return con.cursor()
+
+conn = connect_db()
+
+def get_cursor():
+    return conn.cursor()
+
 POSTS = [
     {
         "id": 1,
