@@ -1,6 +1,6 @@
-from app.DB import POSTS
+# from app.DB import POSTS
 from app.utils import queryId
-from app.model import Post,UpdatePost
+from app.schema import Post,UpdatePost
 from app.DB import conn,get_cursor
 
 cursor = get_cursor()
