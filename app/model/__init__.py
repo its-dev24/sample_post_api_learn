@@ -1,0 +1,1 @@
+from .tableModel import Post
