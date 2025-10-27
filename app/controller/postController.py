@@ -29,7 +29,7 @@ async def get_post_by_id(id : int, db : Session):
     # return post
     return 1
 
-async def create_post(new_post :  Schema.Post, db : Session):
+async def create_post(new_post :  Schema.createPost, db : Session):
 
     #in memory
 

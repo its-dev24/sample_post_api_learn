@@ -4,8 +4,11 @@ from typing import Optional
 class Post(BaseModel):
     title : str
     content : str
-    published : bool
+    published : bool = True
     # rating : Optional[int]
+
+class createPost(Post):
+    pass
 
 class UpdatePost(BaseModel):
     title : Optional[str] = Field(default = None)

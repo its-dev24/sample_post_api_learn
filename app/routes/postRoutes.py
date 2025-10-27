@@ -1,6 +1,6 @@
 from fastapi import APIRouter,status,HTTPException,Depends
 from app.controller import get_all_posts,get_post_by_id,create_post,delete_post,update_single_post
-from app.schema import Post,UpdatePost
+from app.schema import Post,UpdatePost,createPost
 from app.DB.database import get_db
 from sqlalchemy.orm import Session
 
@@ -20,7 +20,7 @@ async def get_post_id(id : int ,  db : Session = Depends(get_db)):
 
 
 @post_router.post('/posts/',status_code = status.HTTP_201_CREATED)
-async def create_new_post(new_post : Post, db : Session = Depends(get_db)):
+async def create_new_post(new_post : createPost, db : Session = Depends(get_db)):
     created_post = await create_post(new_post,db)
     if create_post:
         return created_post
