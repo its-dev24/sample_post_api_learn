@@ -3,7 +3,7 @@ from app.DB.database import get_db
 from sqlalchemy.orm import Session
 import app.schema.userSchema as Schemas
 import app.model as models
-from app.utils import hashPassword,verifyPassword
+from app.utils import verifyPassword,oauth2
 
 authRouter = APIRouter(
     tags=['Authentication']
@@ -15,10 +15,11 @@ async def login(user_credentials : Schemas.UserLogin ,db : Session = Depends(get
     
     if not user:
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND,detail = "Invalid Credentials")
-    if verifyPassword(user_credentials.password , user.password):
-        return "Login Sucessful"
-    else:
+    if not verifyPassword(user_credentials.password , user.password):
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND,detail = "Invalid Credentials")
+    else:
+        access_token = oauth2.create_access_token(data = {"user_id" : user.id})
+        return {"access token" : access_token , "token_type" : "bearer"}
     
     #TODO
     #create Token
