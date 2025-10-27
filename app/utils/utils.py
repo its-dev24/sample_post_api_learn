@@ -2,7 +2,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.model import tableModel
 from app.DB.database import engine
+from passlib.context import CryptContext
 
+
+pass_context = CryptContext(schemes=["argon2"] , deprecated = "auto")
 
 def queryId(dataList : list , id : int):
     for idx , item in enumerate(dataList):
@@ -22,3 +25,6 @@ async def lifespan(app : FastAPI):
     yield
 
     print("Shutting down")
+
+def hashPassword(password : str ) -> str:
+    return pass_context.hash(password)

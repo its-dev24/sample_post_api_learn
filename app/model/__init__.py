@@ -1,1 +1,1 @@
-from .tableModel import Post
+from .tableModel import Post,User
