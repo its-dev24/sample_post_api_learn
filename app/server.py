@@ -1,5 +1,5 @@
 from fastapi import FastAPI,HTTPException,status,Response,Depends
-from app.routes import post_router,user_router
+from app.routes import post_router,user_router,authRouter
 # from app.DB import connect_db
 from app.model import tableModel
 from .DB.database import get_db
@@ -13,6 +13,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(post_router)
 app.include_router(user_router)
+app.include_router(authRouter)
 
 @app.get('/',status_code=status.HTTP_200_OK)
 async def health_check(db:Session  = Depends(get_db)):

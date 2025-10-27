@@ -28,3 +28,6 @@ async def lifespan(app : FastAPI):
 
 def hashPassword(password : str ) -> str:
     return pass_context.hash(password)
+
+def verifyPassword(user_password :str , hashed_password) -> bool:
+    return pass_context.verify(user_password,hashed_password)
