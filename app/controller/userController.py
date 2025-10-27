@@ -11,10 +11,14 @@ async def create_users(user : Schema.CreateUser , db : Session):
         user.password = hashPassword(user.password)
         print(f"Password before hashing {type(user.password)}")
         user_data = model.User(**user.model_dump())
-        db.add(user_data)
-        db.commit()
-        db.refresh(user_data)
-        return user_data
+        try:
+            db.add(user_data)
+            db.commit()
+            db.refresh(user_data)
+            return user_data
+        except Exception as e:
+              db.rollback()
+              raise
 
 async def retrive_user(id : int , db : Session):
       user = db.query(model.User).filter(model.User.id == id).first()

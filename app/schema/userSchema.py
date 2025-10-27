@@ -12,5 +12,6 @@ class UserResp(UserBase):
     created_at : datetime
     pass
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
