@@ -4,6 +4,7 @@ Lightweight FastAPI sample for managing posts and users.
 
 ## Project layout
 
+```bash
 post-api/
 ├── app/
 │   ├── controller/
@@ -40,6 +41,9 @@ post-api/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+
+```
+
 
 ## Features
 
