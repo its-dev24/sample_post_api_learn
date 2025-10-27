@@ -5,28 +5,38 @@ Lightweight FastAPI sample for managing posts and users.
 ## Project layout
 
 post-api/
-│
 ├── app/
-│ ├── controller/
-│ │ ├── postController.py
-│ │ └── userController.py
-│ ├── DB/
-│ │ ├── database.py
-│ │ └── postData.py
-│ ├── model/
-│ │ └── tableModel.py
-│ ├── routes/
-│ │ ├── **pycache**/
-│ │ ├── **init**.py
-│ │ ├── postRoutes.py
-│ │ └── userRoutes.py
-│ ├── schema/
-│ │ ├── postModel.py
-│ │ └── userSchema.py
-│ ├── utils/
-│ │ └── utils.py
-│ ├── .env
-│ └── server.py
+│   ├── controller/
+│   │   ├── __init__.py
+│   │   ├── postController.py
+│   │   └── userController.py
+│   │
+│   ├── DB/
+│   │   ├── __init__.py
+│   │   ├── database.py
+│   │   └── postData.py
+│   │
+│   ├── model/
+│   │   ├── __init__.py
+│   │   └── tableModel.py
+│   │
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── postRoutes.py
+│   │   └── userRoutes.py
+│   │
+│   ├── schema/
+│   │   ├── __init__.py
+│   │   ├── postModel.py
+│   │   └── userSchema.py
+│   │
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   └── utils.py
+│   │
+│   ├── .env
+│   └── server.py
+│
 ├── .gitignore
 ├── README.md
 └── requirements.txt
