@@ -13,6 +13,8 @@ class createPost(Post):
 class UpdatePost(BaseModel):
     title : Optional[str] = Field(default = None)
     content : Optional[str] = Field(default = None)
-    published :Optional[str] = Field(default = None)
+    published :Optional[bool] = Field(default = None)
     # rating : Optional[str] = Field(default = None)
     
+class PostResp(Post):
+    id : int
