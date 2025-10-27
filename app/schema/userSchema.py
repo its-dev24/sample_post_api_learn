@@ -7,3 +7,5 @@ class UserBase(BaseModel):
 class CreateUser(UserBase):
     pass
 
+class UserResp(UserBase):
+    pass
