@@ -2,10 +2,14 @@ from pydantic import BaseModel,EmailStr
 
 class UserBase(BaseModel):
     email : EmailStr
-    password : str
+    
 
 class CreateUser(UserBase):
-    pass
+    password : str
 
 class UserResp(UserBase):
+    id : int
     pass
+
+    class Config:
+        orm_mode = True
