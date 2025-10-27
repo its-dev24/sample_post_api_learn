@@ -15,3 +15,7 @@ async def create_users(user : Schema.CreateUser , db : Session):
         db.commit()
         db.refresh(user_data)
         return user_data
+
+async def retrive_user(id : int , db : Session):
+      user = db.query(model.User).filter(model.User.id == id).first()
+      return user

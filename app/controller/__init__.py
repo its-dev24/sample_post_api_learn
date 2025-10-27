@@ -1,2 +1,2 @@
 from .postController import get_all_posts,get_post_by_id,create_post,delete_post,update_single_post
-from .userController import create_users
+from .userController import create_users,retrive_user

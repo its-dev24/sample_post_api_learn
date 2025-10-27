@@ -26,5 +26,5 @@ async def lifespan(app : FastAPI):
 
     print("Shutting down")
 
-def hashPassword(password : str ):
+def hashPassword(password : str ) -> str:
     return pass_context.hash(password)
