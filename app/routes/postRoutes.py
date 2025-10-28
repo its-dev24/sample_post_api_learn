@@ -4,7 +4,7 @@ from app.schema import Post,UpdatePost,createPost,PostResp
 from app.DB.database import get_db
 from sqlalchemy.orm import Session
 from typing import List
-
+from app.utils import oauth2
 
 post_router  = APIRouter(
     prefix="/posts",
@@ -12,7 +12,7 @@ post_router  = APIRouter(
 )
 
 @post_router.get('/',response_model=List[PostResp])
-async def get_post( db : Session = Depends(get_db)):
+async def get_post( db : Session = Depends(get_db),get_current_user = Depends(oauth2.get_current_user)):
     return await get_all_posts(db)
 
 @post_router.get('/{id}',status_code=status.HTTP_200_OK , response_model= PostResp)

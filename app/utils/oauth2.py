@@ -1,7 +1,7 @@
 import jwt
 import os
 from dotenv import load_dotenv
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,timezone
 from fastapi import HTTPException, status, Depends
 from app.schema.tokenSchema import TokenData
 from fastapi.security import OAuth2PasswordBearer
@@ -25,7 +25,7 @@ oauth_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 def create_access_token(data : dict):
     to_encode = data.copy()
-    expire = datetime.now() +timedelta(minutes=ACCESS_TOKEN_EXPIRATION_MINUTES)
+    expire = datetime.now(timezone.utc) +timedelta(minutes=ACCESS_TOKEN_EXPIRATION_MINUTES)
     to_encode.update({'exp' : expire})
 
     encoded_jwt = jwt.encode(payload=to_encode,key=SECRET_KEY , algorithm=ALGORITHM) # type: ignore
@@ -33,8 +33,8 @@ def create_access_token(data : dict):
 
 def verify_access_token(token : str , credential_exception):
     try: 
-        payload = jwt.decode(token, key = SECRET_KEY , ALGORITHM = [ALGORITHM]) # type: ignore
-        id : str = payload.get("user_id")
+        payload = jwt.decode(token, key = SECRET_KEY , algorithms= [ALGORITHM]) # type: ignore
+        id : int = payload.get("user_id")
         if id is None:
             raise credential_exception
         token_data = TokenData(id=id)
@@ -52,7 +52,7 @@ def verify_access_token(token : str , credential_exception):
 def get_current_user(token : str = Depends(oauth_scheme)):
     credential_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-            detail = "Unablet to verify Credentials",
+            detail = "Unable to verify Credentials",
             headers={"WWW-Authenticate": "Bearer"},
     )
     return verify_access_token(credential_exception=credential_exception , token=token)
