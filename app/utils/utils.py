@@ -2,10 +2,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.model import tableModel
 from app.DB.database import engine
-from passlib.context import CryptContext
+from pwdlib import PasswordHash
 
-
-pass_context = CryptContext(schemes=["argon2"] , deprecated = "auto")
+pass_context = PasswordHash.recommended()
 
 def queryId(dataList : list , id : int):
     for idx , item in enumerate(dataList):
@@ -28,3 +27,6 @@ async def lifespan(app : FastAPI):
 
 def hashPassword(password : str ) -> str:
     return pass_context.hash(password)
+
+def verifyPassword(user_password :str , hashed_password) -> bool:
+    return pass_context.verify(user_password,hashed_password)

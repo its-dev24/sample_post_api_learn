@@ -1,1 +1,1 @@
-from .utils import queryId,lifespan,hashPassword
+from .utils import queryId,lifespan,hashPassword,verifyPassword
