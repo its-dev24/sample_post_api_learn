@@ -1,5 +1,5 @@
 from fastapi import APIRouter,status,HTTPException,Depends
-from app.controller import get_all_posts,get_post_by_id,create_post,delete_post,update_single_post
+from app.controller import get_all_posts,get_post_by_id,create_post,delete_post,update_single_post,get_current_user_post
 from app.schema import Post,UpdatePost,createPost,PostResp
 from app.DB.database import get_db
 from sqlalchemy.orm import Session
@@ -14,6 +14,13 @@ post_router  = APIRouter(
 @post_router.get('/',response_model=List[PostResp])
 async def get_post( db : Session = Depends(get_db)):
     return await get_all_posts(db)
+
+@post_router.get('/current_user', response_model = List[PostResp])
+async def get_user_post(db : Session = Depends(get_db) , current_user = Depends(oauth2.get_current_user)):
+    posts = await get_current_user_post(current_user=current_user , db = db)
+    if posts is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No post Found")
+    return posts
 
 @post_router.get('/{id}',status_code=status.HTTP_200_OK , response_model= PostResp)
 async def get_post_id(id : int ,  db : Session = Depends(get_db),current_user = Depends(oauth2.get_current_user)):

@@ -27,7 +27,11 @@ async def get_post_by_id(id : int, db : Session):
     #in - memory
     # idx,post = queryId(POSTS , id)
     # return post
-    return 1
+    # return 1
+
+async def get_current_user_post(current_user : Schema.UserResp , db : Session):
+     posts = db.query(Post).filter(Post.user_id == current_user.id).all()
+     return posts
 
 async def create_post(new_post :  Schema.createPost, db : Session):
 
