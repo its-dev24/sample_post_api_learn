@@ -5,6 +5,9 @@ from datetime import datetime, timedelta,timezone
 from fastapi import HTTPException, status, Depends
 from app.schema.tokenSchema import TokenData
 from fastapi.security import OAuth2PasswordBearer
+from app.DB.database import get_db
+import app.model as model
+from sqlalchemy.orm import Session
 
 #SECRET_KEY
 #ALGORITHM
@@ -49,10 +52,12 @@ def verify_access_token(token : str , credential_exception):
     
     return token_data
 
-def get_current_user(token : str = Depends(oauth_scheme)):
+def get_current_user(token : str = Depends(oauth_scheme) , db : Session = Depends(get_db)):
     credential_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
             detail = "Unable to verify Credentials",
             headers={"WWW-Authenticate": "Bearer"},
     )
-    return verify_access_token(credential_exception=credential_exception , token=token)
+    token_data : TokenData =  verify_access_token(credential_exception=credential_exception , token=token)
+    user = db.query(model.User).filter(model.User.id == token_data.id).first()
+    return user

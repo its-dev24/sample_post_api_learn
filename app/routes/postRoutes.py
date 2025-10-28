@@ -12,7 +12,7 @@ post_router  = APIRouter(
 )
 
 @post_router.get('/',response_model=List[PostResp])
-async def get_post( db : Session = Depends(get_db),get_current_user = Depends(oauth2.get_current_user)):
+async def get_post( db : Session = Depends(get_db),current_user = Depends(oauth2.get_current_user)):
     return await get_all_posts(db)
 
 @post_router.get('/{id}',status_code=status.HTTP_200_OK , response_model= PostResp)
