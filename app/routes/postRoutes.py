@@ -32,7 +32,7 @@ async def get_post_id(id : int ,  db : Session = Depends(get_db),current_user = 
 
 @post_router.post('/',status_code = status.HTTP_201_CREATED,response_model=PostResp)
 async def create_new_post(new_post : createPost, db : Session = Depends(get_db),current_user = Depends(oauth2.get_current_user)):
-    created_post = await create_post(new_post,db)
+    created_post = await create_post(new_post,current_user,db)
     if created_post:
         return created_post
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

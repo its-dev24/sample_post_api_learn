@@ -2,7 +2,7 @@
 from app.utils import queryId
 import app.schema as Schema
 from app.DB import conn,get_cursor
-from app.model import Post
+from app.model import Post,User
 from sqlalchemy.orm import Session
 
 cursor = get_cursor()
@@ -33,7 +33,7 @@ async def get_current_user_post(current_user : Schema.UserResp , db : Session):
      posts = db.query(Post).filter(Post.user_id == current_user.id).all()
      return posts
 
-async def create_post(new_post :  Schema.createPost, db : Session):
+async def create_post(new_post :  Schema.createPost,current_user : User,  db : Session):
 
     #in memory
 
@@ -53,6 +53,7 @@ async def create_post(new_post :  Schema.createPost, db : Session):
     #sql-alchemy
     
     post  = Post(**new_post.model_dump())
+    post.user_id = current_user.id
     db.add(post)
     db.commit()
     db.refresh(post)
