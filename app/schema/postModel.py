@@ -1,4 +1,5 @@
 from pydantic import BaseModel,Field
+from .userSchema import UserResp
 from typing import Optional
 
 class Post(BaseModel):
@@ -19,3 +20,4 @@ class UpdatePost(BaseModel):
 class PostResp(Post):
     id : int
     user_id : int
+    user : UserResp
