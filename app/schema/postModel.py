@@ -18,3 +18,4 @@ class UpdatePost(BaseModel):
     
 class PostResp(Post):
     id : int
+    user_id : int

@@ -16,7 +16,7 @@ class Post(Base):
     content : Mapped[str] = mapped_column(String , nullable  = False)
     published : Mapped[bool] = mapped_column(Boolean , server_default='TRUE' , nullable=False)
     created_at : Mapped[str] = mapped_column(TIMESTAMP(timezone=True) , nullable=False , server_default=text('now()'))
-    user_id : Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    user_id : Mapped[int] = mapped_column(ForeignKey("users.id",ondelete="CASCADE"), nullable=False)
 
 class User(Base):
     __tablename__ = "users"
