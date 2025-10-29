@@ -39,14 +39,14 @@ async def create_new_post(new_post : createPost, db : Session = Depends(get_db),
 
 @post_router.put('/{id}' , status_code = status.HTTP_200_OK,response_model = PostResp)
 async def update_post(id : int , updated_post : UpdatePost , db : Session = Depends(get_db),current_user = Depends(oauth2.get_current_user)):
-    updated_post_resp = await update_single_post(id,updated_post,db)
+    updated_post_resp = await update_single_post(id,current_user,updated_post,db)
     if updated_post_resp is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id {id} not found")
     return updated_post_resp
 
 @post_router.delete('/{id}',status_code=status.HTTP_200_OK)
 async def delete_a_post(id : int , db : Session = Depends(get_db),current_user = Depends(oauth2.get_current_user)):
-    deleted =  await delete_post(id,db)
+    deleted =  await delete_post(id,current_user,db)
     if deleted is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id {id} not found")
     return {"detail" : f"Post with id {id} deleted"}

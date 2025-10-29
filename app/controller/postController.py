@@ -4,6 +4,7 @@ import app.schema as Schema
 from app.DB import conn,get_cursor
 from app.model import Post,User
 from sqlalchemy.orm import Session
+from fastapi import HTTPException,status
 
 cursor = get_cursor()
 
@@ -52,14 +53,13 @@ async def create_post(new_post :  Schema.createPost,current_user : User,  db : S
 
     #sql-alchemy
     
-    post  = Post(**new_post.model_dump())
-    post.user_id = current_user.id
+    post  = Post(user_id = current_user.id,**new_post.model_dump())
     db.add(post)
     db.commit()
     db.refresh(post)
     return post
 
-async def update_single_post(id : int , updated_post : Schema.UpdatePost,db : Session):
+async def update_single_post(id : int ,current_user :Schema.UserResp, updated_post : Schema.UpdatePost,db : Session):
      
     #sql-alchemy
     post_query = db.query(Post).filter(Post.id == id)
@@ -67,6 +67,8 @@ async def update_single_post(id : int , updated_post : Schema.UpdatePost,db : Se
 
     if post == None:
          return None
+    if post.user_id != current_user.id:
+            raise HTTPException(status_code = status.HTTP_403_FORBIDDEN, detail = "Not authorized to perform this operation")
     post_query.update(updated_post.model_dump(exclude_unset=True),synchronize_session=False) # type: ignore
     db.commit()
     db.refresh(post)
@@ -82,13 +84,14 @@ async def update_single_post(id : int , updated_post : Schema.UpdatePost,db : Se
 #         # return post
 #     return post
 
-async def delete_post(id : int , db : Session):
+async def delete_post(id : int ,current_user : Schema.UserResp, db : Session):
 
       #sql-alchemy
-
         post = db.query(Post).filter(Post.id == id).first()
         if post is None:
              return None
+        if post.user_id != current_user.id:
+             raise HTTPException(status_code = status.HTTP_403_FORBIDDEN, detail = "Not authorized to perform this operation")
         db.delete(post)
         db.commit()
         return post
